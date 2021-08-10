@@ -1,8 +1,16 @@
 import React, { useEffect, useState }  from "react" ;
 import Logo from '../../static/img/logo2.png';
 import Logo2 from '../../static/img/logo3.png';
+import NavData from './NavData';
 
-import {MoneyCollectOutlined , AlignRightOutlined} from '@ant-design/icons';
+import {
+    MoneyCollectOutlined ,
+    AlignRightOutlined ,
+    BarChartOutlined ,
+    CoffeeOutlined
+    } 
+from '@ant-design/icons';
+import {Link} from 'react-router-dom';
 
 function Nav(props) {
     const[activity , setActivity] = useState(0);
@@ -33,19 +41,44 @@ function Nav(props) {
                 :
                 <img src={Logo2} alt="logo" />
                 }
+                <AlignRightOutlined onClick={props.changedrowerMobile}/>
             </div>
-            {[1,1,1,1].map((item , index)=>    
+            {NavData.map((item , index)=>    
             <div onClick={()=>{setActivity(index)}} className='nav-item' >
-                <div className={`nav-item-inner ${activity == index ? 'nav-item-inner-active' : null}`}>
-                    <span className="nav-item-cont">
-                        <MoneyCollectOutlined/>
-                        {props.drower ? 
-                            <span className="nav-item-cont-title">گزینه منو</span>
-                        :null}
-                    </span>
-                </div> 
-                {index == 1 ? 
-                <div className={`nav-item-sub ${activity == index && 'nav-item-sub-active'}`}></div>
+                {!item.isSubmenu ? 
+                    <Link to={item.link}>
+                        <div className={`nav-item-inner ${activity == index ? 'nav-item-inner-active' : null} ${!props.drower ? 'nav-item-inner-small' : null}`}>
+                            <span className="nav-item-cont">
+                                <MoneyCollectOutlined className={`${!props.drower ? 'nav-item-cont-icon-small' : null}`}/>
+                                {props.drower ? 
+                                    <span className="nav-item-cont-title">{item.name}</span>
+                                :null}
+                            </span>
+                        </div> 
+                    </Link>
+                :
+                    <div className={`nav-item-inner ${activity == index ? 'nav-item-inner-active' : null} ${!props.drower ? 'nav-item-inner-small' : null}`}>
+                        <span className="nav-item-cont">
+                            <MoneyCollectOutlined className={`${!props.drower ? 'nav-item-cont-icon-small' : null}`}/>
+                            {props.drower ? 
+                                <span className="nav-item-cont-title">{item.name}</span>
+                            :null}
+                        </span>
+                    </div> 
+                }
+                {item.isSubmenu ? 
+                <div className={`nav-item-sub ${activity == index && 'nav-item-sub-active'}`}>
+                    {item.submenu.map(items=> 
+                    <Link to={items.link}>
+                        <div className="nav-item-sub-item">
+                            <BarChartOutlined  className="nav-item-sub-item-icon" />
+                            {props.drower &&
+                                <span className="nav-item-sub-item-text">{items.name}</span>
+                            }
+                        </div>
+                    </Link>
+                    )}
+                </div>
                 : null}
             </div>
             )}
