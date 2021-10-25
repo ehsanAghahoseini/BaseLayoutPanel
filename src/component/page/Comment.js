@@ -35,8 +35,7 @@ function Comment(props) {
         },
         {
             title:"حذف" ,
-            dataIndex:'delete' ,
-            render:() => (<button className="delete-btn"><DeleteOutlined/></button>)
+            render:(i) => (<button onClick={()=>displayId(i.id)} className="delete-btn"><DeleteOutlined/></button>)
         },
         
     ]

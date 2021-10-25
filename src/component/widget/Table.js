@@ -7,7 +7,7 @@ import {
 function Table(props) {
     const [listDate , setListData] = useState([]);
     const [counter , setCounter] = useState(1);
-    const [range , setRange] = useState(4);
+    const [range , setRange] = useState(2);
 
 
     const changeCounter=(action)=>{
@@ -41,7 +41,6 @@ function Table(props) {
 
     
     useEffect(() => {
-        console.log(props.columns);
         let list = [] ;
         for(let i=0 ; i<range ; i++){
             if(props.data[i] != undefined){
@@ -64,8 +63,7 @@ function Table(props) {
                     {props.columns.map(items=>
                     <div className="table-row-item">
                         {item[items.dataIndex]}
-                        {item[items.dataIndex] == undefined && items.render()}
-                        {()=>{console.log("items.render");}}
+                        {item[items.dataIndex] == undefined && items.render(item)}
                     </div>
                     )}
             </div>
